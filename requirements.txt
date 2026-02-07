@@ -1,0 +1,117 @@
+#########################################
+# Servidor web (API Backend)
+#########################################
+
+# Framework web moderno y de alto rendimiento para construir APIs REST
+# Muy usado para exponer LLMs, RAGs y agentes como servicios
+fastapi
+
+# Servidor ASGI recomendado para FastAPI
+# Incluye autoreload, soporte WebSockets y buen rendimiento en producción
+uvicorn[standard]
+
+
+#########################################
+# LangChain – Núcleo y módulos esenciales
+#########################################
+
+# Núcleo interno de LangChain
+# Contiene Runnables, PromptTemplates, OutputParsers y abstracciones base
+langchain-core
+
+# Framework principal de LangChain
+# Incluye chains, tools, memory, agentes y utilidades de alto nivel
+langchain
+
+# Integración con modelos Gemini (Google AI / Google Generative AI)
+langchain-google-genai
+
+# Integraciones comunitarias de LangChain
+# Incluye loaders de documentos (PDF, HTML, DOCX),
+# utilidades varias y conectores legacy
+langchain-community
+
+
+#########################################
+# Procesamiento de PDFs
+#########################################
+
+# Librería moderna para leer y procesar archivos PDF
+# Es usada internamente por los loaders de PDF de LangChain
+# (por ejemplo PyPDFLoader y PyPDFDirectoryLoader)
+pypdf
+
+
+#########################################
+# Scraping Web
+#########################################
+
+# Cliente HTTP síncrono sencillo
+# Útil para descargar páginas web antes de procesarlas con loaders
+requests
+
+
+#########################################
+# Base de datos SQL
+#########################################
+
+# ORM SQL moderno para Python
+# Permite mapear tablas a clases y construir queries de forma segura
+sqlalchemy
+
+# Librería async para trabajar con bases de datos sobre SQLAlchemy Core
+# Muy usada en proyectos FastAPI async (PostgreSQL, MySQL, SQLite, etc.)
+databases
+
+
+#########################################
+# Base de datos NoSQL (MongoDB)
+#########################################
+
+# ODM asíncrono para MongoDB basado en Motor + Pydantic
+# Muy buena integración con FastAPI, tipado fuerte y validación automática
+# Recomendado sobre usar Motor directamente en la mayoría de APIs modernas
+beanie
+
+
+#########################################
+# Seguridad y autenticación
+#########################################
+
+# Librería para hashing de contraseñas y utilidades de seguridad
+# El extra [bcrypt] añade soporte para hashing seguro con bcrypt
+passlib[bcrypt]
+
+# Implementación de JWT, JWS, JWE
+# Muy usada en autenticación OAuth2 / JWT en FastAPI
+python-jose
+
+
+#########################################
+# Testing
+#########################################
+
+# Framework de testing moderno y muy extendido en Python
+# Ideal para tests unitarios, integración y testing de APIs FastAPI
+pytest
+
+
+#########################################
+# Utilidades generales y helpers
+#########################################
+
+# Carga variables de entorno desde archivos .env
+# Ideal para API keys (OpenAI, LangSmith, etc.)
+python-dotenv
+
+# Sistema de validación de datos
+# Pydantic v2 es requerido por FastAPI y LangChain modernos
+pydantic
+
+# Cliente HTTP asíncrono
+# Usado internamente por muchos SDKs modernos (OpenAI, LangChain, etc.)
+httpx
+
+# Validación de direcciones de email
+# Evita warnings y errores en FastAPI/Pydantic
+email-validator
