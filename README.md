@@ -1,10 +1,14 @@
-# **Laboratorio Fastapi**
+# **Laboratorio FastAPI**
 
-| Tecnología               | Para qué se usa                                                    |
-| ------------------------ | ------------------------------------------------------------------ |
-| **Python**               | Lenguaje principal del servidor IA                                 |
-| **FastAPI**              | Crear endpoints HTTP que devuelven JSON                            |
-
+| Tecnología                 | Para qué se usa                         |
+| -------------------------- | --------------------------------------- |
+| **Python**                 | Lenguaje principal del servidor IA      |
+| **FastAPI**                | Crear endpoints HTTP que devuelven JSON |
+| **LangChain**              | Orquestación de LLMs, agentes y RAG     |
+| **SQLAlchemy / Databases** | Acceso a bases de datos SQL async       |
+| **Beanie (MongoDB)**       | ODM async para Mongo + Pydantic         |
+| **Passlib + JWT**          | Autenticación segura                    |
+| **Pytest**                 | Testing del backend                     |
 
 ---
 
@@ -27,21 +31,25 @@
 ├── ⚙️ .gitignore
 ├── 📝 README.md
 ├── 🐍 config_base.py
-├── 📄 requirements.lock
-└── 📄 requirements.txt
+├── 📄 requirements.txt        # Dependencias base (directas)
+├── 📄 requirements.lock       # Versiones exactas reproducibles
 ```
 
-### Sobre el directorio `app/`
+---
+
+## 🧩 Filosofía del proyecto
 
 `/app` contiene **todos los componentes base compartidos**:
 
 * Inicialización de **FastAPI**
 * Enrutador general del servidor
 * Cliente universal para LLM
-* Archivos de configuración global
-* Utilidades para cargar variables de entorno
+* Configuración global
+* Utilidades de entorno
+* Integración DB
+* Seguridad / Auth
 
-Cada lab solo agrega una nueva ruta o endpoint mediante:
+Cada lab solo añade endpoints mediante:
 
 ```python
 router.include_router(labX_router)
@@ -49,80 +57,182 @@ router.include_router(labX_router)
 
 ---
 
-## 🐍 Requisitos de Python
+## 🐍 Versiones de Python
 
-Este proyecto ha sido desarrollado y probado con las siguientes versiones de Python:
+Probado con:
 
-- **Python 3.13.2**: Compatible y probado en **macOS (Apple Silicon)** y **Windows**.
-- **Python 3.11**: Recomendado para equipos **Mac con procesador Intel**, donde Python 3.13 puede no estar disponible o no ser estable.
+* ✅ **Python 3.13**
+* ✅ **Python 3.12**
+* ✅ **Python 3.11**
 
-⚠️ **No se recomienda usar Python 3.14 o superior**, ya que algunas librerías clave todavía no son compatibles:
+⚠️ Evitar versiones demasiado nuevas sin testear en producción.
 
-- **Pydantic** (LangChain y ChromaDB dependen de Pydantic V1)
-- **ChromaDB**
-- **LangChain Core**
+👉 Actualmente el ecosistema principal ya funciona sobre **Pydantic v2**.
+
+---
 
 ## ⚙️ Instalación del entorno
 
-### 1) Crear entorno virtual
+---
+
+### 1️⃣ Crear entorno virtual
 
 ```bash
-python -m venv .venv # crear entorno virtual
+python -m venv .venv
 
-# iniciar entorno virtual
+# Activar
 source .venv/bin/activate      # Mac / Linux
 .venv\Scripts\activate         # Windows
 ```
 
-### 2) Instalar dependencias
+---
 
-dos opciones: 
+## 📦 Gestión de dependencias
+
+Este proyecto usa:
+
+| Archivo           | Función                                |
+| ----------------- | -------------------------------------- |
+| requirements.txt  | Dependencias base elegidas manualmente |
+| requirements.lock | Versiones exactas reproducibles        |
+
+---
+
+### Instalar dependencias
+
 ```bash
-pip install -r requirements.txt # para instalar dependencias
-pip install -r requirements.lock # para instalar mismas versiones de dependencias
+pip install -r requirements.lock
 ```
 
-#### Cuando se añade una nueva dependencia en requeriments.txt
+👉 Recomendado para desarrollo estable.
+
+---
+
+### Instalar solo dependencias base
 
 ```bash
-# Paso 1: instalar / actualizar paquetes desde requirements.txt
 pip install -r requirements.txt
-
-# Paso 2: generar/actualizar lock file con las versiones exactas
-pip freeze > requirements.lock
 ```
 
-### 3) Configurar variables de entorno
+---
+
+## 🔒 Actualizar lock correctamente (RECOMENDADO)
+
+En lugar de usar `pip freeze`, se recomienda usar **pip-tools**.
+
+### Instalar pip-tools
+
+```bash
+pip install pip-tools
+```
+
+---
+
+### Generar lock reproducible
+
+```bash
+pip-compile requirements.txt --output-file requirements.lock
+```
+
+---
+
+### Actualizar dependencias
+
+```bash
+pip-compile --upgrade
+```
+
+---
+
+### Actualizar solo un paquete
+
+```bash
+pip-compile --upgrade-package fastapi
+```
+
+---
+
+## 🧠 Por qué no usar pip freeze
+
+`pip freeze` incluye:
+
+* Dependencias transitivas
+* Paquetes del entorno
+* Librerías no controladas
+
+👉 pip-compile genera builds reproducibles reales.
+
+---
+
+## 🔐 Seguridad incluida
+
+Stack preparado para:
+
+* Hash seguro contraseñas → **passlib[bcrypt]**
+* Tokens JWT → **python-jose**
+* Validación datos → **Pydantic**
+
+---
+
+## 🗄️ Base de datos
+
+Soporte para:
+
+### SQL
+
+* SQLAlchemy
+* Databases (async)
+
+### MongoDB
+
+* Beanie (ODM async + Pydantic)
+
+---
+
+## 🧪 Testing
+
+```bash
+pytest
+```
+
+---
+
+## 🌍 Variables de entorno
 
 ```bash
 cp .env.example .env
 ```
 
-Edita tu `.env`:
+Ejemplo:
 
 ```
 GOOGLEAI_API_KEY=API_KEY_HERE
 ENV=dev
 ```
 
-Obtener API keys:
+API Keys:
+
 [https://aistudio.google.com/api-keys](https://aistudio.google.com/api-keys)
 
 ---
 
-## ▶️ Ejecutar el servidor
+## ▶️ Ejecutar servidor
 
 ```bash
 uvicorn app.main:app --reload --port 8000
 ```
 
-Ruta local del http://localhost:8000 para docs
+---
+
+## 📚 Documentación automática
 
 ```
 http://localhost:8000/docs
 ```
 
-Rutas de prueba:
+---
+
+## 🔎 Endpoints base
 
 ```
 GET /health
@@ -131,17 +241,19 @@ GET /test-llm-google
 
 ---
 
+## 🛠️ Configuración global
 
-## 🛠️ **config_base.py (configuración global del repositorio)**
-
-Este archivo centraliza la configuración compartida entre todos los labs.
-
-Se encuentra en:
+Archivo central:
 
 ```
 /config_base.py
 ```
 
+Contiene:
+
+* Config global entorno
+* Flags dev / prod
+* Variables comunes
+* Setup clientes externos
+
 ---
-
-
