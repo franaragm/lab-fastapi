@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from .llm_client import llm_chain_google
 
 from .labs.lab1.router import router as lab1_router
+from .labs.lab2.router import router as lab2_router
 
 router = APIRouter()
 
@@ -17,3 +18,4 @@ async def test_llm_google():
 
 # --- Proyectos Laboratorio ---
 router.include_router(lab1_router)
+router.include_router(lab2_router)

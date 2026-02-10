@@ -9,7 +9,7 @@ from .schemas import P1Request, P1Response, PostResponse1, RepoRequest, RepoResp
 from .utils import extract_owner_repo
 from .constants import URL
 
-router = APIRouter(prefix="/p1", tags=["P1 - Prompts & Templates"])
+router = APIRouter(prefix="/lab1", tags=["Lab1 - Llamadas externas async y Background Tasks"])
 
 # =============================
 # Llamadas a modelos llm
@@ -250,7 +250,7 @@ async def analize_repository_github(
     background_tasks: BackgroundTasks
 ):
     """
-    Recibe URL de repositorio y correo, devuelve info básica inmediatamente
+    Recibe URL de repositorio, devuelve info básica inmediatamente
     y genera análisis del repo en background.
     """
     try:
