@@ -10,9 +10,9 @@ def health():
     return {"status": "ok"}
 
 @router.get("/test-llm-google")
-def test_llm_google():
+async def test_llm_google():
     llm = llm_chain_google()
-    answer = llm.invoke("Dime una frase corta para confirmar conexión.")
+    answer = await llm.ainvoke("Dime una frase corta para confirmar conexión.")
     return {"response": answer.content}
 
 # --- Proyectos Laboratorio ---

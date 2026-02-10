@@ -26,7 +26,7 @@ async def parse_intent(req: P1Request):
         llm = llm_chain_google().with_structured_output(P1Response)
 
         # Ejecutar modelo
-        result: P1Response = llm.invoke(prompt)
+        result: P1Response = await llm.ainvoke(prompt)
 
         return result
     except Exception as e:
@@ -44,13 +44,13 @@ async def parse_intent(req: P1Request):
     response_description="JSON estructurado con la respuesta del asistente",
     response_model=P1Response
 )
-def parse_intent(req: P1Request):
+async def parse_intent(req: P1Request):
     try:
         today = date.today().strftime("%Y-%m-%d")
         llm = llm_chain_google().with_structured_output(P1Response)
         chain = intent_prompt | llm
     
-        result: P1Response = chain.invoke({"user_message": req.message, "today": today})
+        result: P1Response = await chain.ainvoke({"user_message": req.message, "today": today})
         
         return result
     except Exception as e:
