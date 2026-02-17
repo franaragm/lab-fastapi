@@ -71,23 +71,19 @@ Probado con:
 
 ---
 
-## ⚙️ Instalación del entorno
+## 🚀 Instalación y uso
 
----
-
-### 1️⃣ Crear entorno virtual
+### 🔧 1) Crear entorno virtual y activar entorno virtual
 
 ```bash
-python -m venv .venv
-
-# Activar
-source .venv/bin/activate      # Mac / Linux
-.venv\Scripts\activate         # Windows
+python -m venv .venv           # crear entorno virtual
+source .venv/bin/activate      # iniciar entorno virtual en macOS / Linux
+.venv\Scripts\activate         # iniciar entorno virtual en Windows
 ```
 
 ---
 
-## 📦 Gestión de dependencias
+### 📦 2) Instalar dependencias en el entorno virtual iniciado
 
 Este proyecto usa:
 
@@ -96,73 +92,57 @@ Este proyecto usa:
 | requirements.txt  | Dependencias base elegidas manualmente |
 | requirements.lock | Versiones exactas reproducibles        |
 
----
-
-### Instalar dependencias
+Hay dos opciones, se recomienda usar `requirements.lock` para asegurar la reproducibilidad del entorno.
 
 ```bash
-pip install -r requirements.lock
+pip install -r requirements.txt   # instalar dependencias principales del proyecto
+pip install -r requirements.lock  # instalar dependencias fijadas
 ```
 
-👉 Recomendado para desarrollo estable.
-
----
-
-### Instalar solo dependencias base
+Para fijar nuevas dependencias, añadir paquete en requeriments.txt:
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt # Instala las dependencias listadas en requirements.txt (si hay nuevas)
+pip freeze > requirements.lock  # Genera un nuevo archivo lock con las dependencias actuales
 ```
 
 ---
 
-## 🔒 Actualizar lock correctamente (RECOMENDADO)
+### 🔐 3) Configurar variables de entorno
 
-En lugar de usar `pip freeze`, se recomienda usar **pip-tools**.
-
-### Instalar pip-tools
+Copiar y renombrar el archivo `.env.example` a `.env`:
 
 ```bash
-pip install pip-tools
+cp .env.example .env
+```
+
+Editar `.env` con tus claves:
+
+```
+GOOGLEAI_API_KEY=API_KEY_HERE
+ENV=dev
+```
+
+#### 🔑 Obtener API keys:
+
+* Google AI → [https://aistudio.google.com/api-keys](https://aistudio.google.com/api-keys)
+
+---
+
+### ▶️ 4) Ejecutar servidor en el entorno virtual iniciado
+
+```bash
+uvicorn app.main:app --reload --port 8000
+```
+
+📚 Documentación automática
+
+```
+http://localhost:8000/docs
 ```
 
 ---
 
-### Generar lock reproducible
-
-```bash
-pip-compile requirements.txt --output-file requirements.lock
-```
-
----
-
-### Actualizar dependencias
-
-```bash
-pip-compile --upgrade
-```
-
----
-
-### Actualizar solo un paquete
-
-```bash
-pip-compile --upgrade-package fastapi
-```
-
----
-
-## 🧠 Por qué no usar pip freeze
-
-`pip freeze` incluye:
-
-* Dependencias transitivas
-* Paquetes del entorno
-* Librerías no controladas
-
-👉 pip-compile genera builds reproducibles reales.
-
----
 
 ## 🔐 Seguridad incluida
 
@@ -186,60 +166,6 @@ Soporte para:
 ### MongoDB
 
 * Beanie (ODM async + Pydantic)
-
----
-
-## 🧪 Testing
-
-```bash
-pytest
-```
-
----
-
-## 🌍 Variables de entorno
-
-```bash
-cp .env.example .env
-```
-
-Ejemplo:
-
-```
-GOOGLEAI_API_KEY=API_KEY_HERE
-ENV=dev
-```
-
-API Keys:
-
-[https://aistudio.google.com/api-keys](https://aistudio.google.com/api-keys)
-
----
-
-## ▶️ Ejecutar servidor
-
-```bash
-uvicorn app.main:app --reload --port 8000
-```
-
----
-
-## 📚 Documentación automática
-
-```
-http://localhost:8000/docs
-```
-
----
-
-## 🔎 Endpoints base
-
-```
-GET /health
-GET /test-llm-google
-```
-
----
 
 ## 🛠️ Configuración global
 
