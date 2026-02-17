@@ -1,4 +1,4 @@
-from fastapi import Header
+from fastapi import Depends, Header
 from .services import ConfigService
 
 def get_api_key(
@@ -11,7 +11,7 @@ def get_api_key(
 
 
 def get_config_service(
-    api_key: str = get_api_key()
+    api_key: str = Depends(get_api_key)
 ) -> ConfigService:
     """
     Factory del ConfigService.
