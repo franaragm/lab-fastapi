@@ -84,7 +84,7 @@ passlib[bcrypt]
 
 # Implementación de JWT, JWS, JWE
 # Muy usada en autenticación OAuth2 / JWT en FastAPI
-python-jose
+PyJWT
 
 
 #########################################
