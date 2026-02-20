@@ -81,11 +81,14 @@ beanie
 # Librería para hashing de contraseñas y utilidades de seguridad
 # El extra [bcrypt] añade soporte para hashing seguro con bcrypt
 passlib[bcrypt]
+passlib[argon2]
 
 # Implementación de JWT, JWS, JWE
 # Muy usada en autenticación OAuth2 / JWT en FastAPI
 PyJWT
 
+# Necesario para recibir datos de formulario (OAuth2PasswordRequestForm)
+python-multipart
 
 #########################################
 # Testing
